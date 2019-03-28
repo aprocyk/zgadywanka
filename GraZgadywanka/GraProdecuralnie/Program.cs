@@ -8,32 +8,48 @@ namespace GraMonolit
 {
     class Program
     {
+        static int wylosowana = 0;
+        /// <summary>
+        /// Losuje liczbę całkowitą z podanego zakresu, włącznie.
+        /// </summary>
+        /// <param name="min">wartość od której losujemy, włącznie</param>
+        /// <param name="max">wartośc do której losujemy, wyłącznie</param>
+        static void Losuj(int min=0, int max=101) {
+            if (min > max) {
+                throw new ArgumentOutOfRangeException("Hold up nigga, min jest wieksze niz max");
+            }
+            Random generator = new Random();
+            int wylosowana = generator.Next(min, max);
+
+            Console.WriteLine(wylosowana); //do usuniecia w 1.0
+
+            Console.WriteLine("Wylosowalem liczbę, odgadnij ją!");
+
+        }
+        static int WczytajLiczbe(string prompt ="Podaj twoją propozycję: " )
+        {
+            Console.Write(prompt);
+            string tekst = Console.ReadLine();
+            return (Convert.ToInt32(tekst));
+        }
         static void Main(string[] args)
         {
             Console.WriteLine("Gra za duzo za malo");
-            #region losowanie
+            
             //1. komputer losuje
-            Random generator = new Random();
-            int wylosowana = generator.Next(0, 101);
-#if DEBUG == true
-            //Console.WriteLine(wylosowana); //do usuniecia w 1.0
-#endif
-            Console.WriteLine("Wylosowalem liczbę, odgadnij ją!");
-            #endregion
+            Losuj(100, 1);
             int licznikruchow = 0;
             bool trafiono = false;
             do
             {
-                #region propozycja
+                
                 //2. gracz podaje propozyjce
 
-                Console.Write("Podaj twoją propozycję: ");
-                string tekst = Console.ReadLine();
-                //Console.WriteLine($"Podałeś tekst {tekst}");
+
                 int podana;
                 try
                 {
-                    podana = Convert.ToInt32(tekst);
+                    podana = WczytajLiczbe("Podaj wymyslona wartosc: ");
                 }
                 catch (FormatException)
                 {
@@ -47,9 +63,9 @@ namespace GraMonolit
                     licznikruchow++;
                     continue;
                 }
-                #endregion
+                
 
-                #region ocenakomputera
+                
                 //3. kumpoter ocenia
                 if (wylosowana < podana)
                 {
@@ -64,7 +80,7 @@ namespace GraMonolit
                     Console.WriteLine("Trafiłeś!");
                     trafiono = true;
                 }
-                #endregion
+                
                 licznikruchow++;
             }
             while (!trafiono);

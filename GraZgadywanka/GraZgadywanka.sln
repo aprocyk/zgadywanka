@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraMonolit", "GraMonolit\GraMonolit.csproj", "{74CF8604-EA99-4C46-BDF7-D84CFD0BB6B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraProdecuralnie", "GraProdecuralnie\GraProdecuralnie.csproj", "{03915A73-E7C2-426F-B7DF-162666B9DB52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{74CF8604-EA99-4C46-BDF7-D84CFD0BB6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CF8604-EA99-4C46-BDF7-D84CFD0BB6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CF8604-EA99-4C46-BDF7-D84CFD0BB6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03915A73-E7C2-426F-B7DF-162666B9DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03915A73-E7C2-426F-B7DF-162666B9DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03915A73-E7C2-426F-B7DF-162666B9DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03915A73-E7C2-426F-B7DF-162666B9DB52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
