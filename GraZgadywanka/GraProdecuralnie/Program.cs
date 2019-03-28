@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GraMonolit
+namespace Proceduralnie
 {
     class Program
     {
@@ -14,12 +14,12 @@ namespace GraMonolit
         /// </summary>
         /// <param name="min">wartość od której losujemy, włącznie</param>
         /// <param name="max">wartośc do której losujemy, wyłącznie</param>
-        static void Losuj(int min=0, int max=101) {
+        static int Losuj(int min=0, int max=101) {
             if (min > max) {
                 throw new ArgumentOutOfRangeException("Hold up nigga, min jest wieksze niz max");
             }
             Random generator = new Random();
-            int wylosowana = generator.Next(min, max);
+            return generator.Next(min=0, max+1);
 
             Console.WriteLine(wylosowana); //do usuniecia w 1.0
 
@@ -36,8 +36,10 @@ namespace GraMonolit
         {
             Console.WriteLine("Gra za duzo za malo");
             
-            //1. komputer losuje
-            Losuj(100, 1);
+            Console.WriteLine("Podaj zakres losowania dolny i gorny. Pamietaj dolny < gorny");
+            int min = WczytajLiczbe("Podaj dolny zakres: ");
+            int max = WczytajLiczbe("Podaj górny zakres: ");
+            Losuj(min, max);
             int licznikruchow = 0;
             bool trafiono = false;
             do
