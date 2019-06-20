@@ -1,93 +1,108 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 
-namespace Proceduralnie
+namespace GraProceduralnie
 {
     class Program
     {
+        static Stopwatch stoper = new Stopwatch();
+
         static int wylosowana = 0;
+
         /// <summary>
         /// Losuje liczbę całkowitą z podanego zakresu, włącznie.
         /// </summary>
         /// <param name="min">wartość od której losujemy, włącznie</param>
-        /// <param name="max">wartośc do której losujemy, wyłącznie</param>
-        static int Losuj(int min=0, int max=101) {
-            if (min > max) {
-                throw new ArgumentOutOfRangeException("Hold up nigga, min jest wieksze niz max");
-            }
-            Random generator = new Random();
-            return generator.Next(min=0, max+1);
+        /// <param name="max">wartość do której losujemy, włącznie</param>
+        /// <returns>wylosowana wartość z podanego zakresu</returns>
+        /// <exception cref="ArgumentOutOfRangeException">jeśli min > max</exception>
+        static int Losuj(int min = 0, int max = 100)
+        {
+            if (min > max)
+                throw new ArgumentOutOfRangeException("min jest wieksze niż max");
 
-            Console.WriteLine(wylosowana); //do usuniecia w 1.0
+            var generator = new Random();
+            return generator.Next(min, max + 1);
 
-            Console.WriteLine("Wylosowalem liczbę, odgadnij ją!");
-
+#if DEBUG
+            Console.WriteLine(wylosowana); //do usunięcia w wersji finalnej
+#endif
+            Console.WriteLine("Wylosowałem liczbę, odgadnij ją!");
         }
-        static int WczytajLiczbe(string prompt ="Podaj twoją propozycję: " )
+
+        static int WczytajLiczbe(string prompt = "Podaj Twoją propozycję: ")
         {
             Console.Write(prompt);
             string tekst = Console.ReadLine();
-            return (Convert.ToInt32(tekst));
+            return Convert.ToInt32(tekst);
         }
+
+        static string Ocena(int prop)
+        {
+            if (wylosowana < prop)
+            {
+                return "Za dużo";
+            }
+            else if (wylosowana > prop)
+            {
+                return "Za mało";
+            }
+            else
+            {
+                return "TRAFIONO!";
+            }
+        }
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Gra za duzo za malo");
-            
-            Console.WriteLine("Podaj zakres losowania dolny i gorny. Pamietaj dolny < gorny");
+            stoper.Start();
+            Console.WriteLine("Gra za dużo za mało");
+
+            //1. komputer losuje
+            Console.WriteLine("Muszę wylosować liczbę z podanego przez ciebie zakresu!");
+            Console.WriteLine("Podaj dolny i górny zakres. Pamiętaj, że dolny < górny");
             int min = WczytajLiczbe("Podaj dolny zakres: ");
             int max = WczytajLiczbe("Podaj górny zakres: ");
-            Losuj(min, max);
-            int licznikruchow = 0;
-            bool trafiono = false;
+            wylosowana = Losuj(min, max);
+
+            int licznikRuchow = 0;
             do
             {
-                
-                //2. gracz podaje propozyjce
-
-
-                int podana;
+                #region propozycja gracza
+                //2. gracz podaje propozycję
+                int propozycja;
                 try
                 {
-                    podana = WczytajLiczbe("Podaj wymyslona wartosc: ");
+                    propozycja = WczytajLiczbe("Podaj wymysloną wartość: ");
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("Nie podales liczby, sprobuj jeszcze raz");
-                    licznikruchow++;
+                    Console.WriteLine("nie podałeś liczby, spróbuj jeszcze raz");
+                    licznikRuchow++;
                     continue;
                 }
                 catch (OverflowException)
                 {
-                    Console.WriteLine($"Podana liczba wykracza poza zakres od {int.MinValue} do {int.MaxValue}");
-                    licznikruchow++;
+                    Console.WriteLine($"podana liczba wykracza poza zakres od {int.MinValue} do {int.MaxValue}, spróbuj jeszcze raz");
+                    licznikRuchow++;
                     continue;
                 }
-                
+                #endregion
 
-                
-                //3. kumpoter ocenia
-                if (wylosowana < podana)
-                {
-                    Console.WriteLine("Za dużo :C");
-                }
-                else if (wylosowana > podana)
-                {
-                    Console.WriteLine("Za mało :C");
-                }
-                else
-                {
-                    Console.WriteLine("Trafiłeś!");
-                    trafiono = true;
-                }
-                
-                licznikruchow++;
+                //3. komputer ocenia
+                string wynik = Ocena(propozycja);
+                Console.WriteLine(wynik);
+                if (wynik == "TRAFIONO!")
+                    break;
+
+                licznikRuchow++;
             }
-            while (!trafiono);
+            while (true);
+
+            stoper.Stop();
+            Console.WriteLine($"Liczba ruchów = {licznikRuchow}, czas gry = {stoper.Elapsed}");
             Console.WriteLine("Koniec gry");
-            Console.WriteLine($"Statystyki: Wykonane ruchy {licznikruchow}");
         }
     }
 }
